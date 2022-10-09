@@ -52,6 +52,8 @@ async function run() {
         const userCollection = client.db('doctors_portal').collection('users');
         const doctorCollection = client.db('doctors_portal').collection('doctors');
         const paymentCollection = client.db('doctors_portal').collection('payments');
+        const hasaimCollection = client.db('doctors_portal').collection('hasaim');
+        const sadikurCollection = client.db('doctors_portal').collection('sadikur');
 
 
         const verifyAdmin = async (req, res, next) =>{
@@ -84,6 +86,20 @@ async function run() {
             res.send(services)
         });
 
+        // all hasaims api
+        app.get('/hasaims', async (req, res) => {
+            const query = {};
+            const cursor = hasaimCollection.find(query);
+            const hasaims = await cursor.toArray();
+            res.send(hasaims);
+        });
+        // sadikur api 
+        app.get('/sadikurs', async (req, res) => {
+            const query = {};
+            const cursor = sadikurCollection.find(query);
+            const sadikurs = await cursor.toArray();
+            res.send(sadikurs);
+        });
 
         app.get('/user', verifyJWT, async (req, res) => {
             const users = await userCollection.find().toArray();
